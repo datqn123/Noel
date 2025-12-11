@@ -1108,8 +1108,17 @@
                     // Hide the gift
                     gift.style.display = 'none';
 
-                    // Show "Chúc ngủ ngon" message
-                    showGoodnightMessage();
+                    // Different action for each gift
+                    if (index === 0) {
+                        // Gift 1 - Facebook
+                        window.open('https://www.facebook.com/quoc.ho.54922', '_blank');
+                    } else if (index === 1) {
+                        // Gift 2 - TikTok
+                        window.open('https://vt.tiktok.com/ZSP6W6aRe/', '_blank');
+                    } else {
+                        // Gift 3 - Chúc ngủ ngon message
+                        showGoodnightMessage();
+                    }
                 });
             });
         }
