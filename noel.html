@@ -320,6 +320,104 @@
             transform: scale(1.05);
             box-shadow: 0 0 30px rgba(255, 100, 100, 0.5);
         }
+
+        /* ========== RESPONSIVE FOR MOBILE ========== */
+        @media screen and (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+
+            .content {
+                top: 15px;
+            }
+
+            .name-title {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+
+            .name-input {
+                width: 240px;
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+
+            .name-submit {
+                padding: 10px 30px;
+                font-size: 1rem;
+            }
+
+            .santa-emoji {
+                font-size: 4rem;
+            }
+
+            .santa-message {
+                font-size: 1.5rem;
+            }
+
+            .santa-sub {
+                font-size: 1rem;
+            }
+
+            .gift-box {
+                width: 50px;
+                height: 40px;
+            }
+
+            .click-hint {
+                font-size: 0.6rem;
+                bottom: 80px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .title {
+                font-size: 1.5rem;
+                letter-spacing: 1px;
+            }
+
+            .name-title {
+                font-size: 1.2rem;
+                padding: 0 20px;
+            }
+
+            .name-input {
+                width: 200px;
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+
+            .name-submit {
+                padding: 8px 25px;
+                font-size: 0.9rem;
+            }
+
+            .santa-emoji {
+                font-size: 3rem;
+            }
+
+            .santa-message {
+                font-size: 1.2rem;
+            }
+
+            .santa-sub {
+                font-size: 0.9rem;
+            }
+
+            .gift-box {
+                width: 40px;
+                height: 35px;
+            }
+
+            .close-btn {
+                top: 15px;
+                right: 15px;
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 
@@ -979,7 +1077,7 @@
             if (e.key === 'Enter') submitName();
         });
 
-        // Gift boxes escape when mouse hovers!
+        // Gift boxes - HARDER to catch!
         function startGiftAnimation() {
             const giftBoxes = document.querySelectorAll('.gift-box');
 
@@ -990,18 +1088,38 @@
                 gift.style.zIndex = '999';
                 gift.style.left = (window.innerWidth / 2 - 100 + index * 90) + 'px';
                 gift.style.top = (window.innerHeight - 120) + 'px';
-                gift.style.transition = 'left 0.3s ease-out, top 0.3s ease-out';
+                gift.style.transition = 'left 0.2s ease-out, top 0.2s ease-out';
                 gift.style.opacity = '1';
                 gift.style.pointerEvents = 'auto';
+                gift.style.cursor = 'pointer';
 
+                // Escape 80% of the time - HARDER to catch!
                 gift.addEventListener('mouseenter', () => {
-                    // Teleport to random position on screen
-                    const newX = Math.random() * (window.innerWidth - 100);
-                    const newY = Math.random() * (window.innerHeight - 150);
-                    gift.style.left = newX + 'px';
-                    gift.style.top = newY + 'px';
+                    if (Math.random() < 0.8) {
+                        const newX = Math.random() * (window.innerWidth - 100);
+                        const newY = Math.random() * (window.innerHeight - 150);
+                        gift.style.left = newX + 'px';
+                        gift.style.top = newY + 'px';
+                    }
+                });
+
+                // Click to catch gift!
+                gift.addEventListener('click', () => {
+                    // Hide the gift
+                    gift.style.display = 'none';
+
+                    // Show "Chúc ngủ ngon" message
+                    showGoodnightMessage();
                 });
             });
+        }
+
+        // Show goodnight message when gift is caught
+        function showGoodnightMessage() {
+            document.getElementById('santaMessage').textContent = `Chúc bé ${userName} ngủ ngon! 🌙`;
+            document.getElementById('santaSub').textContent = 'Merry Christmas & Sweet Dreams! 💫';
+            showSanta();
+            createConfetti();
         }
     </script>
 </body>
