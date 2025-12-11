@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎄 Cosmic Christmas Tree</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Great+Vibes&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,13 +17,13 @@
 
         body {
             min-height: 100vh;
-            background: #000;
+            background: #000000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Mountains of Christmas', cursive;
         }
 
         canvas {
@@ -32,23 +34,25 @@
         }
 
         .content {
-            position: relative;
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 10;
             text-align: center;
             pointer-events: none;
         }
 
         .title {
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: 8px;
-            color: transparent;
-            background: linear-gradient(180deg, #fff 0%, #888 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            opacity: 0.9;
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            font-weight: 400;
+            letter-spacing: 4px;
+            color: #fff;
+            text-shadow:
+                0 0 10px rgba(255, 200, 100, 0.8),
+                0 0 30px rgba(255, 150, 50, 0.6),
+                0 0 50px rgba(255, 100, 50, 0.4);
         }
 
         .gifts-container {
@@ -168,7 +172,7 @@
 
         .santa-content {
             text-align: center;
-            animation: santaIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            ho: santaIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes santaIn {
@@ -185,7 +189,7 @@
 
         .santa-emoji {
             font-size: 120px;
-            animation: float 2s ease-in-out infinite;
+            ho: float 2s ease-in-out infinite;
         }
 
         @keyframes float {
@@ -276,8 +280,8 @@
         <button class="close-btn" onclick="closeSanta()">✕</button>
         <div class="santa-content">
             <div class="santa-emoji">🎅</div>
-            <p class="santa-message">MERRY CHRISTMAS</p>
-            <p class="santa-sub">HO HO HO!</p>
+            <p class="santa-message">Merry Christmas</p>
+            <p class="santa-sub">Choose a gift</p>
         </div>
     </div>
 
@@ -334,19 +338,19 @@
             const treeTop = height * 0.12;
             const baseWidth = width * 0.35;
 
-            // Create tree shape particles
+            // Create tree shape particles - TINY DOTS
             for (let i = 0; i < 800; i++) {
                 const t = Math.random();
                 const y = treeTop + t * treeHeight;
                 const maxWidth = (t * baseWidth) / 2;
                 const x = centerX + (Math.random() - 0.5) * maxWidth * 2;
 
-                // Determine particle type
+                // Determine particle type - mostly tiny lights
                 const rand = Math.random();
                 let type, color, size, glowSize;
 
-                if (rand < 0.85) {
-                    // Warm lights
+                if (rand < 0.95) {
+                    // Tiny warm lights
                     type = 'light';
                     const warmColors = [
                         { r: 255, g: 200, b: 100 },
@@ -355,14 +359,14 @@
                         { r: 255, g: 255, b: 200 },
                     ];
                     color = warmColors[Math.floor(Math.random() * warmColors.length)];
-                    size = 1 + Math.random() * 2;
-                    glowSize = 15 + Math.random() * 25;
+                    size = 0.5 + Math.random() * 1;
+                    glowSize = 5 + Math.random() * 8;
                 } else {
-                    // Red ornaments
+                    // Small red ornaments
                     type = 'ornament';
                     color = { r: 200, g: 30, b: 30 };
-                    size = 4 + Math.random() * 6;
-                    glowSize = 20 + Math.random() * 15;
+                    size = 2 + Math.random() * 2;
+                    glowSize = 8 + Math.random() * 8;
                 }
 
                 particles.push({
@@ -397,59 +401,41 @@
 
         function drawParticles(time) {
             particles.forEach(p => {
-                const pulse = Math.sin(time * p.speed * 0.003 + p.phase);
-                const intensity = p.intensity * (0.6 + pulse * 0.4);
-
-                // Mouse interaction - subtle
-                const dx = mouse.x - p.x;
-                const dy = mouse.y - p.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                const influence = Math.max(0, 1 - dist / 200);
-                const boostedIntensity = intensity + influence * 0.3;
-
-                // Draw glow
-                const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.glowSize * boostedIntensity);
+                const pulse = Math.sin(time * p.speed * 0.002 + p.phase);
+                const intensity = p.intensity * (0.7 + pulse * 0.3);
 
                 if (p.type === 'star') {
-                    gradient.addColorStop(0, `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${boostedIntensity})`);
-                    gradient.addColorStop(0.1, `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${boostedIntensity * 0.6})`);
-                    gradient.addColorStop(0.5, `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${boostedIntensity * 0.2})`);
+                    // Draw star with glow
+                    const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.glowSize);
+                    gradient.addColorStop(0, `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${intensity})`);
+                    gradient.addColorStop(0.5, `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${intensity * 0.3})`);
                     gradient.addColorStop(1, 'rgba(255, 200, 50, 0)');
-                } else if (p.type === 'ornament') {
-                    gradient.addColorStop(0, `rgba(${p.color.r + 55}, ${p.color.g + 20}, ${p.color.b + 20}, ${boostedIntensity})`);
-                    gradient.addColorStop(0.3, `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${boostedIntensity * 0.5})`);
-                    gradient.addColorStop(1, 'rgba(200, 0, 0, 0)');
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.glowSize, 0, Math.PI * 2);
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
                 } else {
-                    gradient.addColorStop(0, `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${boostedIntensity})`);
-                    gradient.addColorStop(0.4, `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${boostedIntensity * 0.3})`);
-                    gradient.addColorStop(1, `rgba(${p.color.r}, ${p.color.g}, 0, 0)`);
+                    // Simple tiny dot for lights
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * (0.8 + pulse * 0.2), 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${intensity})`;
+                    ctx.fill();
                 }
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.glowSize * boostedIntensity, 0, Math.PI * 2);
-                ctx.fillStyle = gradient;
-                ctx.fill();
-
-                // Draw core
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size * (0.8 + pulse * 0.2), 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${boostedIntensity})`;
-                ctx.fill();
             });
         }
 
-        // Shooting stars
+        // Shooting stars - BEAUTIFUL ⭐
         let shootingStars = [];
 
         function createShootingStar() {
-            if (Math.random() > 0.995) {
+            if (Math.random() > 0.98) {
                 shootingStars.push({
-                    x: Math.random() * width,
+                    x: Math.random() * width * 0.7,
                     y: 0,
-                    vx: (Math.random() - 0.5) * 8,
-                    vy: 5 + Math.random() * 5,
+                    vx: 4 + Math.random() * 5,
+                    vy: 5 + Math.random() * 6,
                     life: 1,
-                    length: 50 + Math.random() * 50
+                    length: 80 + Math.random() * 70
                 });
             }
         }
@@ -474,21 +460,26 @@
                 ctx.lineTo(s.x - s.vx * s.length / 5, s.y - s.vy * s.length / 5);
                 ctx.strokeStyle = gradient;
                 ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
                 ctx.stroke();
+
+                // Bright head
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${s.life})`;
+                ctx.fill();
             });
         }
 
-        // Animation loop
+        // Animation loop - OPTIMIZED for performance
         function animate(time) {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
             ctx.fillRect(0, 0, width, height);
 
             drawStars();
             createShootingStar();
             drawShootingStars();
-            drawSnowflakes();
             drawParticles(time);
-            drawReindeer(time);
 
             requestAnimationFrame(animate);
         }
@@ -582,12 +573,9 @@
 
         function initReindeers() {
             sleighs = [
-                { x: 100, y: 60, speed: 2.8, direction: 1 },
-                { x: -300, y: 120, speed: 2.2, direction: 1 },
-                { x: width + 300, y: 80, speed: -2.5, direction: -1 },
-                { x: -500, y: 180, speed: 3, direction: 1 },
-                { x: width + 500, y: 140, speed: -2.8, direction: -1 },
-                { x: -700, y: 100, speed: 2.4, direction: 1 },
+                { x: 100, y: 70, speed: 2.5, direction: 1 },
+                { x: width + 400, y: 100, speed: -2.3, direction: -1 },
+                { x: -500, y: 150, speed: 2.8, direction: 1 },
             ];
         }
 
@@ -885,25 +873,29 @@
             showSanta();
             document.getElementById('giftsContainer').classList.add('visible');
             document.getElementById('giftHint').style.opacity = '1';
+            startGiftAnimation();
         }, 5000);
 
-        // Gift boxes evade mouse on hover!
-        const giftBoxes = document.querySelectorAll('.gift-box');
-        giftBoxes.forEach(gift => {
-            gift.addEventListener('mouseenter', () => {
-                // Random direction to escape
-                const escapeX = (Math.random() - 0.5) * 150;
-                const escapeY = (Math.random() - 0.5) * 80 - 30;
-                gift.style.transform = `translate(${escapeX}px, ${escapeY}px)`;
-            });
+        // Gift boxes escape when mouse hovers!
+        function startGiftAnimation() {
+            const giftBoxes = document.querySelectorAll('.gift-box');
 
-            gift.addEventListener('mouseleave', () => {
-                // Return after a delay
-                setTimeout(() => {
-                    gift.style.transform = 'translate(0, 0)';
-                }, 500);
+            giftBoxes.forEach((gift, index) => {
+                // Set initial position at bottom center
+                gift.style.position = 'fixed';
+                gift.style.left = (window.innerWidth / 2 - 100 + index * 90) + 'px';
+                gift.style.top = (window.innerHeight - 120) + 'px';
+                gift.style.transition = 'left 0.3s ease-out, top 0.3s ease-out';
+
+                gift.addEventListener('mouseenter', () => {
+                    // Teleport to random position on screen
+                    const newX = Math.random() * (window.innerWidth - 100);
+                    const newY = Math.random() * (window.innerHeight - 150);
+                    gift.style.left = newX + 'px';
+                    gift.style.top = newY + 'px';
+                });
             });
-        });
+        }
     </script>
 </body>
 
