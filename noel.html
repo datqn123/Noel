@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎄 Cây Thông Noel Siêu Đẹp 🎄</title>
+    <title>🌌 Cosmic Christmas 🎄</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Dancing+Script:wght@700&display=swap"
         rel="stylesheet">
     <style>
         * {
@@ -17,195 +17,245 @@
 
         body {
             min-height: 100vh;
-            background: radial-gradient(ellipse at bottom, #1b2838 0%, #090a0f 100%);
+            background: #000010;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            font-family: 'Poppins', sans-serif;
-            perspective: 1000px;
+            font-family: 'Orbitron', sans-serif;
         }
 
-        /* Aurora Background */
-        .aurora {
+        /* Deep space background */
+        .space {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background:
-                linear-gradient(45deg, transparent 40%, rgba(120, 0, 255, 0.1) 45%, transparent 50%),
-                linear-gradient(-45deg, transparent 40%, rgba(0, 255, 170, 0.1) 45%, transparent 50%);
-            animation: aurora 8s ease-in-out infinite;
+                radial-gradient(ellipse at 20% 80%, rgba(120, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 150, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 50, 100, 0.2) 0%, transparent 70%),
+                linear-gradient(180deg, #000010 0%, #0a0a20 50%, #000010 100%);
+        }
+
+        /* Stars background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
         }
 
-        @keyframes aurora {
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: starTwinkle var(--duration) ease-in-out infinite;
+        }
+
+        @keyframes starTwinkle {
 
             0%,
             100% {
                 opacity: 0.3;
-                transform: translateY(0);
+                transform: scale(0.8);
             }
 
             50% {
-                opacity: 0.7;
-                transform: translateY(-20px);
+                opacity: 1;
+                transform: scale(1.2);
             }
         }
 
-        /* Title với hiệu ứng neon */
-        .title {
-            font-family: 'Dancing Script', cursive;
-            font-size: 4rem;
-            background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #ff6b6b);
-            background-size: 400% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientFlow 3s linear infinite, floatTitle 3s ease-in-out infinite;
-            margin-bottom: 20px;
-            text-shadow: none;
-            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));
-            z-index: 10;
+        /* Nebula effect */
+        .nebula {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: nebulaPulse 8s ease-in-out infinite;
         }
 
-        @keyframes gradientFlow {
+        .nebula1 {
+            top: -200px;
+            left: -200px;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.5) 0%, transparent 70%);
+        }
+
+        .nebula2 {
+            bottom: -200px;
+            right: -200px;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.5) 0%, transparent 70%);
+            animation-delay: 4s;
+        }
+
+        @keyframes nebulaPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.2;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.4;
+            }
+        }
+
+        /* Title */
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: transparent;
+            background: linear-gradient(90deg, #fff, #00d4ff, #ff00ff, #ffd700, #fff);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: titleGradient 4s linear infinite;
+            margin-bottom: 30px;
+            z-index: 10;
+            text-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes titleGradient {
             0% {
                 background-position: 0% 50%;
             }
 
             100% {
-                background-position: 400% 50%;
+                background-position: 300% 50%;
             }
         }
 
-        @keyframes floatTitle {
-
-            0%,
-            100% {
-                transform: translateY(0) scale(1);
-            }
-
-            50% {
-                transform: translateY(-10px) scale(1.02);
-            }
-        }
-
-        /* Container chính */
-        .scene {
-            position: relative;
-            transform-style: preserve-3d;
-            animation: sceneRotate 20s ease-in-out infinite;
-        }
-
-        @keyframes sceneRotate {
-
-            0%,
-            100% {
-                transform: rotateY(-5deg);
-            }
-
-            50% {
-                transform: rotateY(5deg);
-            }
-        }
-
+        /* Tree container - chỉ chứa đèn */
         .tree-container {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            filter: drop-shadow(0 20px 60px rgba(0, 255, 100, 0.3));
+            width: 400px;
+            height: 500px;
+            z-index: 10;
         }
 
-        /* Ngôi sao 3D siêu đẹp */
-        .star-container {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            margin-bottom: -20px;
-            z-index: 100;
-            animation: starFloat 2s ease-in-out infinite;
-        }
-
-        @keyframes starFloat {
-
-            0%,
-            100% {
-                transform: translateY(0) rotate(0deg);
-            }
-
-            50% {
-                transform: translateY(-15px) rotate(10deg);
-            }
-        }
-
-        .star {
+        /* Đèn lấp lánh tạo hình cây */
+        .light-particle {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background: conic-gradient(from 0deg, #ffd700, #fff8dc, #ffd700, #ffb700, #ffd700);
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            animation: starPulse 1s ease-in-out infinite alternate, starSpin 6s linear infinite;
-            filter: drop-shadow(0 0 30px #ffd700) drop-shadow(0 0 60px #ffb700);
+            border-radius: 50%;
+            animation: particleTwinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
         }
 
-        .star::before {
+        .light-particle::before {
             content: '';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+            animation: glowPulse 2s ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes particleTwinkle {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scale(0.6);
+                box-shadow: 0 0 5px var(--color);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+                box-shadow: 0 0 20px var(--color), 0 0 40px var(--color), 0 0 60px var(--color);
+            }
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: translate(-50%, -50%) scale(1.3);
+            }
+        }
+
+        /* Ngôi sao trên đỉnh - cũng từ ánh sáng */
+        .top-star {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 30px;
             height: 30px;
-            background: radial-gradient(circle, #fff 0%, #ffd700 100%);
-            border-radius: 50%;
-            filter: blur(5px);
         }
 
-        .star-rays {
+        .top-star-light {
             position: absolute;
-            width: 200px;
-            height: 200px;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #ffd700 0%, #ffff00 30%, transparent 70%);
+            border-radius: 50%;
+            animation: topStarPulse 1.5s ease-in-out infinite;
+            box-shadow:
+                0 0 30px #ffd700,
+                0 0 60px #ffd700,
+                0 0 90px #ffaa00,
+                0 0 120px #ff8800;
+        }
+
+        .top-star-rays {
+            position: absolute;
             top: 50%;
             left: 50%;
+            width: 120px;
+            height: 120px;
             transform: translate(-50%, -50%);
             background: conic-gradient(from 0deg,
-                    transparent 0deg, rgba(255, 215, 0, 0.3) 10deg, transparent 20deg,
-                    transparent 30deg, rgba(255, 215, 0, 0.3) 40deg, transparent 50deg,
-                    transparent 60deg, rgba(255, 215, 0, 0.3) 70deg, transparent 80deg,
-                    transparent 90deg, rgba(255, 215, 0, 0.3) 100deg, transparent 110deg,
-                    transparent 120deg, rgba(255, 215, 0, 0.3) 130deg, transparent 140deg,
-                    transparent 150deg, rgba(255, 215, 0, 0.3) 160deg, transparent 170deg,
-                    transparent 180deg, rgba(255, 215, 0, 0.3) 190deg, transparent 200deg,
-                    transparent 210deg, rgba(255, 215, 0, 0.3) 220deg, transparent 230deg,
-                    transparent 240deg, rgba(255, 215, 0, 0.3) 250deg, transparent 260deg,
-                    transparent 270deg, rgba(255, 215, 0, 0.3) 280deg, transparent 290deg,
-                    transparent 300deg, rgba(255, 215, 0, 0.3) 310deg, transparent 320deg,
-                    transparent 330deg, rgba(255, 215, 0, 0.3) 340deg, transparent 350deg);
-            animation: raysRotate 4s linear infinite;
-            filter: blur(2px);
+                    transparent 0deg, rgba(255, 215, 0, 0.6) 5deg, transparent 10deg,
+                    transparent 20deg, rgba(255, 215, 0, 0.6) 25deg, transparent 30deg,
+                    transparent 40deg, rgba(255, 215, 0, 0.6) 45deg, transparent 50deg,
+                    transparent 60deg, rgba(255, 215, 0, 0.6) 65deg, transparent 70deg,
+                    transparent 80deg, rgba(255, 215, 0, 0.6) 85deg, transparent 90deg,
+                    transparent 100deg, rgba(255, 215, 0, 0.6) 105deg, transparent 110deg,
+                    transparent 120deg, rgba(255, 215, 0, 0.6) 125deg, transparent 130deg,
+                    transparent 140deg, rgba(255, 215, 0, 0.6) 145deg, transparent 150deg,
+                    transparent 160deg, rgba(255, 215, 0, 0.6) 165deg, transparent 170deg,
+                    transparent 180deg, rgba(255, 215, 0, 0.6) 185deg, transparent 190deg,
+                    transparent 200deg, rgba(255, 215, 0, 0.6) 205deg, transparent 210deg,
+                    transparent 220deg, rgba(255, 215, 0, 0.6) 225deg, transparent 230deg,
+                    transparent 240deg, rgba(255, 215, 0, 0.6) 245deg, transparent 250deg,
+                    transparent 260deg, rgba(255, 215, 0, 0.6) 265deg, transparent 270deg,
+                    transparent 280deg, rgba(255, 215, 0, 0.6) 285deg, transparent 290deg,
+                    transparent 300deg, rgba(255, 215, 0, 0.6) 305deg, transparent 310deg,
+                    transparent 320deg, rgba(255, 215, 0, 0.6) 325deg, transparent 330deg,
+                    transparent 340deg, rgba(255, 215, 0, 0.6) 345deg, transparent 350deg);
+            animation: raysRotate 10s linear infinite;
+            filter: blur(1px);
         }
 
-        @keyframes starPulse {
-            from {
+        @keyframes topStarPulse {
+
+            0%,
+            100% {
                 transform: scale(1);
             }
 
-            to {
-                transform: scale(1.15);
-            }
-        }
-
-        @keyframes starSpin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
+            50% {
+                transform: scale(1.3);
             }
         }
 
@@ -219,947 +269,597 @@
             }
         }
 
-        /* Cây thông 3D */
-        .tree {
-            position: relative;
+        /* Gift boxes */
+        .gifts-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            gap: 40px;
+            margin-top: 40px;
+            z-index: 100;
         }
 
-        .tree-layer {
+        .gift-box {
             position: relative;
-            border-style: solid;
+            width: 80px;
+            height: 70px;
+            cursor: pointer;
             transition: all 0.3s ease;
+            animation: giftFloat 3s ease-in-out infinite;
         }
 
-        .tree-layer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
-            animation: shimmer 3s ease-in-out infinite;
+        .gift-box:nth-child(2) {
+            animation-delay: 0.5s;
         }
 
-        @keyframes shimmer {
+        .gift-box:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes giftFloat {
 
             0%,
             100% {
-                opacity: 0;
+                transform: translateY(0);
             }
 
             50% {
-                opacity: 1;
+                transform: translateY(-10px);
             }
         }
 
-        .layer1 {
-            border-width: 0 70px 110px 70px;
-            border-color: transparent transparent #1a8f1a transparent;
-            filter: drop-shadow(0 0 20px rgba(0, 200, 0, 0.5));
+        .gift-box:hover {
+            transform: scale(1.15) !important;
         }
 
-        .layer2 {
-            border-width: 0 100px 130px 100px;
-            border-color: transparent transparent #158015 transparent;
-            margin-top: -35px;
-            filter: drop-shadow(0 0 20px rgba(0, 180, 0, 0.5));
-        }
-
-        .layer3 {
-            border-width: 0 130px 150px 130px;
-            border-color: transparent transparent #107010 transparent;
-            margin-top: -40px;
-            filter: drop-shadow(0 0 20px rgba(0, 160, 0, 0.5));
-        }
-
-        .layer4 {
-            border-width: 0 160px 170px 160px;
-            border-color: transparent transparent #0a600a transparent;
-            margin-top: -45px;
-            filter: drop-shadow(0 0 25px rgba(0, 140, 0, 0.5));
-        }
-
-        /* Tinsel / Garland */
-        .garland {
-            position: absolute;
+        .gift-body {
             width: 100%;
             height: 100%;
-            pointer-events: none;
-        }
-
-        .garland-strand {
-            position: absolute;
-            height: 3px;
-            background: linear-gradient(90deg,
-                    transparent 0%,
-                    rgba(255, 215, 0, 0.8) 10%,
-                    rgba(255, 255, 255, 0.9) 20%,
-                    rgba(255, 215, 0, 0.8) 30%,
-                    transparent 40%,
-                    rgba(255, 215, 0, 0.8) 50%,
-                    rgba(255, 255, 255, 0.9) 60%,
-                    rgba(255, 215, 0, 0.8) 70%,
-                    transparent 80%,
-                    rgba(255, 215, 0, 0.8) 90%,
-                    transparent 100%);
-            border-radius: 2px;
-            animation: garlandShimmer 2s linear infinite;
-            filter: drop-shadow(0 0 5px gold);
-        }
-
-        @keyframes garlandShimmer {
-            0% {
-                background-position: 0% 0%;
-            }
-
-            100% {
-                background-position: 200% 0%;
-            }
-        }
-
-        /* Thân cây */
-        .trunk {
-            width: 70px;
-            height: 90px;
-            background: linear-gradient(90deg, #2d1810 0%, #5a3825 30%, #8b5a2b 50%, #5a3825 70%, #2d1810 100%);
             border-radius: 8px;
-            margin-top: -8px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.3);
             position: relative;
+            box-shadow:
+                0 0 20px var(--giftGlow),
+                0 0 40px var(--giftGlow),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
-        .trunk::before {
+        .gift-body::before {
             content: '';
-            position: absolute;
-            top: 10%;
-            left: 20%;
-            width: 60%;
-            height: 80%;
-            background: repeating-linear-gradient(0deg,
-                    transparent,
-                    transparent 10px,
-                    rgba(0, 0, 0, 0.1) 10px,
-                    rgba(0, 0, 0, 0.1) 12px);
-        }
-
-        /* Container đèn và decorations */
-        .decorations-container {
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 100%;
+            width: 15px;
             height: 100%;
-            pointer-events: none;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
         }
 
-        /* Đèn LED siêu lấp lánh */
-        .light {
-            position: absolute;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            animation: megaTwinkle var(--duration) ease-in-out infinite;
-            animation-delay: var(--delay);
-        }
-
-        .light::before {
+        .gift-body::after {
             content: '';
             position: absolute;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, var(--color) 0%, transparent 70%);
-            animation: lightPulse 1s ease-in-out infinite alternate;
-            animation-delay: var(--delay);
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 15px;
+            background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.5), transparent);
         }
 
-        .light::after {
+        .gift-ribbon {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 30px;
+        }
+
+        .gift-ribbon::before,
+        .gift-ribbon::after {
             content: '';
             position: absolute;
-            top: 2px;
-            left: 4px;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50% 50% 0 50%;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
 
-        @keyframes megaTwinkle {
-
-            0%,
-            100% {
-                opacity: 0.4;
-                transform: scale(0.8);
-                box-shadow: 0 0 5px var(--color);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.4);
-                box-shadow: 0 0 20px var(--color), 0 0 40px var(--color), 0 0 60px var(--color);
-            }
+        .gift-ribbon::before {
+            left: 0;
+            transform: rotate(-45deg);
         }
 
-        @keyframes lightPulse {
+        .gift-ribbon::after {
+            right: 0;
+            transform: rotate(45deg) scaleX(-1);
+        }
+
+        .gift1 .gift-body {
+            background: linear-gradient(135deg, rgba(255, 0, 100, 0.4) 0%, rgba(200, 0, 80, 0.6) 100%);
+            --giftGlow: rgba(255, 0, 100, 0.5);
+        }
+
+        .gift2 .gift-body {
+            background: linear-gradient(135deg, rgba(0, 200, 150, 0.4) 0%, rgba(0, 150, 100, 0.6) 100%);
+            --giftGlow: rgba(0, 255, 150, 0.5);
+        }
+
+        .gift3 .gift-body {
+            background: linear-gradient(135deg, rgba(100, 0, 255, 0.4) 0%, rgba(80, 0, 200, 0.6) 100%);
+            --giftGlow: rgba(150, 0, 255, 0.5);
+        }
+
+        /* Santa Modal */
+        .santa-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 20, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .santa-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .santa-content {
+            text-align: center;
+            animation: santaAppear 0.8s ease-out;
+        }
+
+        @keyframes santaAppear {
             from {
-                opacity: 0.3;
-                transform: translate(-50%, -50%) scale(0.8);
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
             }
 
             to {
-                opacity: 0.8;
-                transform: translate(-50%, -50%) scale(1.2);
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
             }
         }
 
-        /* Quả cầu 3D */
-        .ornament {
-            position: absolute;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            animation: swing 4s ease-in-out infinite;
-            cursor: pointer;
-            transition: transform 0.3s ease;
+        .santa-emoji {
+            font-size: 150px;
+            animation: santaBounce 1s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(255, 100, 100, 0.5));
         }
 
-        .ornament:hover {
-            transform: scale(1.3) !important;
-        }
-
-        .ornament::before {
-            content: '';
-            position: absolute;
-            top: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 10px;
-            background: linear-gradient(180deg, #ffd700, #b8860b);
-            border-radius: 2px 2px 0 0;
-        }
-
-        .ornament::after {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 6px;
-            width: 8px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            filter: blur(2px);
-        }
-
-        @keyframes swing {
+        @keyframes santaBounce {
 
             0%,
             100% {
-                transform: rotate(-8deg) translateY(0);
-            }
-
-            25% {
-                transform: rotate(8deg) translateY(-3px);
+                transform: translateY(0) scale(1);
             }
 
             50% {
-                transform: rotate(-5deg) translateY(0);
-            }
-
-            75% {
-                transform: rotate(5deg) translateY(-2px);
+                transform: translateY(-20px) scale(1.1);
             }
         }
 
-        /* Dây đèn LED */
-        .led-string {
+        .santa-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #fff;
+            margin-top: 30px;
+            text-shadow:
+                0 0 20px #ff6b6b,
+                0 0 40px #ffd700,
+                0 0 60px #ff6b6b;
+            animation: messageGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes messageGlow {
+            from {
+                text-shadow: 0 0 20px #ff6b6b, 0 0 40px #ffd700;
+            }
+
+            to {
+                text-shadow: 0 0 30px #ffd700, 0 0 60px #ff6b6b, 0 0 80px #00ff88;
+            }
+        }
+
+        .santa-sub {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 20px;
+            letter-spacing: 2px;
+        }
+
+        .close-btn {
             position: absolute;
-            stroke: rgba(255, 255, 255, 0.3);
-            stroke-width: 2;
-            fill: none;
+            top: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+            transition: all 0.3s ease;
         }
 
-        /* Particles / Sparkles */
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        /* Shooting stars */
+        .shooting-star {
+            position: fixed;
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, white, white, transparent);
+            animation: shootingStar 4s linear infinite;
+            opacity: 0;
+            z-index: 5;
+        }
+
+        .shooting-star:nth-child(2) {
+            animation-delay: 2s;
+            top: 20%;
+        }
+
+        .shooting-star:nth-child(3) {
+            animation-delay: 3.5s;
+            top: 40%;
+        }
+
+        @keyframes shootingStar {
+            0% {
+                left: -150px;
+                top: 5%;
+                opacity: 0;
+                transform: rotate(-20deg);
+            }
+
+            5% {
+                opacity: 1;
+            }
+
+            30% {
+                opacity: 1;
+            }
+
+            35% {
+                opacity: 0;
+            }
+
+            100% {
+                left: 110%;
+                top: 35%;
+                opacity: 0;
+                transform: rotate(-20deg);
+            }
+        }
+
+        /* Cosmic dust / particles */
+        .cosmic-dust {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .dust-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: dustFloat 20s linear infinite;
+        }
+
+        @keyframes dustFloat {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-10vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+        /* Sparkle effect on gifts */
+        .sparkle-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
         .sparkle {
             position: absolute;
             width: 4px;
             height: 4px;
             background: white;
             border-radius: 50%;
-            animation: sparkleFloat 3s ease-in-out infinite;
-            pointer-events: none;
+            animation: sparkle 2s ease-in-out infinite;
         }
 
-        @keyframes sparkleFloat {
+        @keyframes sparkle {
 
             0%,
             100% {
                 opacity: 0;
-                transform: translateY(0) scale(0);
+                transform: scale(0);
             }
 
             50% {
                 opacity: 1;
-                transform: translateY(-30px) scale(1);
-            }
-        }
-
-        /* Tuyết 3D */
-        .snowflakes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 50;
-        }
-
-        .snowflake {
-            position: absolute;
-            color: white;
-            animation: snowFall linear infinite;
-            opacity: 0.9;
-            text-shadow: 0 0 10px white, 0 0 20px rgba(200, 220, 255, 0.5);
-            filter: blur(0.5px);
-        }
-
-        @keyframes snowFall {
-            0% {
-                transform: translateY(-10vh) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 1;
-            }
-
-            90% {
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(105vh) translateX(100px) rotate(720deg);
-                opacity: 0;
-            }
-        }
-
-        /* Quà siêu đẹp */
-        .gifts {
-            display: flex;
-            gap: 25px;
-            margin-top: 25px;
-            perspective: 500px;
-        }
-
-        .gift {
-            width: 60px;
-            height: 50px;
-            border-radius: 8px;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: giftBounce 2s ease-in-out infinite;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .gift:hover {
-            transform: scale(1.15) rotateY(10deg);
-        }
-
-        .gift::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 12px;
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-50%);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
-        .gift::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 12px;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
-        .gift-bow {
-            position: absolute;
-            top: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 35px;
-            height: 25px;
-        }
-
-        .gift-bow::before,
-        .gift-bow::after {
-            content: '';
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50% 50% 0 50%;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
-        .gift-bow::before {
-            left: 0;
-            transform: rotate(-45deg);
-        }
-
-        .gift-bow::after {
-            right: 0;
-            transform: rotate(45deg) scaleX(-1);
-        }
-
-        .gift1 {
-            background: linear-gradient(135deg, #ff4757 0%, #c0392b 100%);
-        }
-
-        .gift2 {
-            background: linear-gradient(135deg, #2ed573 0%, #16a085 100%);
-        }
-
-        .gift3 {
-            background: linear-gradient(135deg, #ffa502 0%, #e67e22 100%);
-        }
-
-        .gift4 {
-            background: linear-gradient(135deg, #3742fa 0%, #2c3e50 100%);
-        }
-
-        @keyframes giftBounce {
-
-            0%,
-            100% {
-                transform: translateY(0) rotateY(0deg);
-            }
-
-            50% {
-                transform: translateY(-10px) rotateY(5deg);
-            }
-        }
-
-        /* Lời chúc siêu đẹp */
-        .message-container {
-            margin-top: 40px;
-            text-align: center;
-            z-index: 10;
-        }
-
-        .message {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
-            color: #fff;
-            text-shadow:
-                0 0 10px rgba(255, 215, 0, 0.8),
-                0 0 20px rgba(255, 215, 0, 0.6),
-                0 0 30px rgba(255, 215, 0, 0.4);
-            animation: messageGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes messageGlow {
-            from {
-                text-shadow:
-                    0 0 10px rgba(255, 215, 0, 0.8),
-                    0 0 20px rgba(255, 215, 0, 0.6);
-            }
-
-            to {
-                text-shadow:
-                    0 0 20px rgba(255, 215, 0, 1),
-                    0 0 40px rgba(255, 100, 100, 0.8),
-                    0 0 60px rgba(255, 215, 0, 0.6);
-            }
-        }
-
-        .countdown {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 15px;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .countdown span {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 15px;
-            border-radius: 10px;
-            margin: 0 5px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* Fireworks */
-        .firework {
-            position: fixed;
-            pointer-events: none;
-            z-index: 200;
-        }
-
-        .firework-particle {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            animation: fireworkExplode 1.5s ease-out forwards;
-        }
-
-        @keyframes fireworkExplode {
-            0% {
-                transform: translate(0, 0) scale(1);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate(var(--tx), var(--ty)) scale(0);
-                opacity: 0;
-            }
-        }
-
-        /* Nền tuyết */
-        .ground {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(180deg,
-                    transparent 0%,
-                    rgba(255, 255, 255, 0.05) 30%,
-                    rgba(255, 255, 255, 0.15) 60%,
-                    rgba(255, 255, 255, 0.25) 100%);
-            border-radius: 50% 50% 0 0 / 30px 30px 0 0;
-        }
-
-        .ground::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 10%;
-            width: 80%;
-            height: 60%;
-            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-        }
-
-        /* Music toggle */
-        .music-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .music-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
-        }
-
-        /* Magic particles khi hover cây */
-        .magic-particle {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: radial-gradient(circle, #ffd700, transparent);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: magicFloat 2s ease-out forwards;
-        }
-
-        @keyframes magicFloat {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
-            }
-
-            100% {
-                opacity: 0;
-                transform: translate(var(--mx), var(--my)) scale(0);
-            }
-        }
-
-        /* Comet / Shooting star */
-        .comet {
-            position: fixed;
-            width: 100px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, white, transparent);
-            animation: cometFly 3s linear infinite;
-            opacity: 0;
-            z-index: 5;
-        }
-
-        @keyframes cometFly {
-            0% {
-                left: -100px;
-                top: 10%;
-                opacity: 0;
-                transform: rotate(-15deg);
-            }
-
-            10% {
-                opacity: 1;
-            }
-
-            90% {
-                opacity: 1;
-            }
-
-            100% {
-                left: 110%;
-                top: 30%;
-                opacity: 0;
-                transform: rotate(-15deg);
+                transform: scale(1);
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="aurora"></div>
-    <div class="comet"></div>
+    <div class="space"></div>
+    <div class="nebula nebula1"></div>
+    <div class="nebula nebula2"></div>
+    <div class="stars" id="stars"></div>
+    <div class="cosmic-dust" id="cosmicDust"></div>
 
-    <button class="music-toggle" id="musicToggle" title="Bật/Tắt nhạc">🔇</button>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
 
-    <h1 class="title">✨ Merry Christmas ✨</h1>
+    <h1 class="title">✨ Cosmic Christmas ✨</h1>
 
-    <div class="scene">
-        <div class="tree-container" id="treeContainer">
-            <div class="star-container">
-                <div class="star-rays"></div>
-                <div class="star"></div>
-            </div>
-            <div class="tree">
-                <div class="tree-layer layer1"></div>
-                <div class="tree-layer layer2"></div>
-                <div class="tree-layer layer3"></div>
-                <div class="tree-layer layer4"></div>
-                <div class="decorations-container" id="decorations"></div>
-                <div class="garland" id="garland"></div>
-                <div class="trunk"></div>
-            </div>
+    <div class="tree-container" id="tree">
+        <div class="top-star">
+            <div class="top-star-rays"></div>
+            <div class="top-star-light"></div>
         </div>
     </div>
 
-    <div class="gifts">
-        <div class="gift gift1">
-            <div class="gift-bow"></div>
+    <div class="gifts-container">
+        <div class="gift-box gift1" onclick="showSanta()">
+            <div class="gift-ribbon"></div>
+            <div class="gift-body"></div>
         </div>
-        <div class="gift gift2">
-            <div class="gift-bow"></div>
+        <div class="gift-box gift2" onclick="showSanta()">
+            <div class="gift-ribbon"></div>
+            <div class="gift-body"></div>
         </div>
-        <div class="gift gift3">
-            <div class="gift-bow"></div>
-        </div>
-        <div class="gift gift4">
-            <div class="gift-bow"></div>
+        <div class="gift-box gift3" onclick="showSanta()">
+            <div class="gift-ribbon"></div>
+            <div class="gift-body"></div>
         </div>
     </div>
 
-    <div class="message-container">
-        <p class="message">🎅 Chúc bạn Giáng Sinh An Lành và Hạnh Phúc! 🎄</p>
-        <div class="countdown" id="countdown"></div>
+    <!-- Santa Modal -->
+    <div class="santa-modal" id="santaModal">
+        <button class="close-btn" onclick="closeSanta()">✕</button>
+        <div class="santa-content">
+            <div class="santa-emoji">🎅</div>
+            <p class="santa-message">🎄 Chúc Giáng Sinh Vui Vẻ! 🎄</p>
+            <p class="santa-sub">HO HO HO! MERRY CHRISTMAS!</p>
+        </div>
     </div>
-
-    <div class="snowflakes" id="snowflakes"></div>
-    <div class="ground"></div>
-
-    <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
 
     <script>
-        // Màu sắc đèn LED
+        // Tạo stars nền
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3 + 1;
+            star.style.cssText = `
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                width: ${size}px;
+                height: ${size}px;
+                --duration: ${2 + Math.random() * 3}s;
+                animation-delay: ${Math.random() * 5}s;
+            `;
+            starsContainer.appendChild(star);
+        }
+
+        // Tạo cosmic dust
+        const dustContainer = document.getElementById('cosmicDust');
+        for (let i = 0; i < 50; i++) {
+            const dust = document.createElement('div');
+            dust.className = 'dust-particle';
+            dust.style.cssText = `
+                left: ${Math.random() * 100}%;
+                animation-delay: ${Math.random() * 20}s;
+                animation-duration: ${15 + Math.random() * 10}s;
+            `;
+            dustContainer.appendChild(dust);
+        }
+
+        // Tạo cây thông từ đèn lấp lánh
+        const treeContainer = document.getElementById('tree');
         const colors = [
-            '#ff0040', '#00ff88', '#ffdd00', '#ff00ff',
-            '#00ddff', '#ff6600', '#ff69b4', '#00ff00',
-            '#ff4444', '#44ff44', '#4444ff', '#ffff44'
+            { color: '#ff0066', glow: 'rgba(255, 0, 102, 0.6)' },
+            { color: '#00ffcc', glow: 'rgba(0, 255, 204, 0.6)' },
+            { color: '#ffff00', glow: 'rgba(255, 255, 0, 0.6)' },
+            { color: '#ff00ff', glow: 'rgba(255, 0, 255, 0.6)' },
+            { color: '#00ccff', glow: 'rgba(0, 204, 255, 0.6)' },
+            { color: '#ff6600', glow: 'rgba(255, 102, 0, 0.6)' },
+            { color: '#ffffff', glow: 'rgba(255, 255, 255, 0.6)' },
+            { color: '#00ff66', glow: 'rgba(0, 255, 102, 0.6)' },
         ];
 
-        // Vị trí đèn LED
-        const lightPositions = [
-            // Layer 1
-            { x: -35, y: 50 }, { x: 0, y: 40 }, { x: 35, y: 50 },
-            { x: -20, y: 70 }, { x: 20, y: 70 }, { x: 0, y: 85 },
-            // Layer 2
-            { x: -55, y: 110 }, { x: -25, y: 100 }, { x: 0, y: 115 },
-            { x: 25, y: 100 }, { x: 55, y: 110 },
-            { x: -40, y: 135 }, { x: 0, y: 145 }, { x: 40, y: 135 },
-            // Layer 3
-            { x: -80, y: 175 }, { x: -45, y: 165 }, { x: -15, y: 180 },
-            { x: 15, y: 180 }, { x: 45, y: 165 }, { x: 80, y: 175 },
-            { x: -65, y: 200 }, { x: -30, y: 210 }, { x: 0, y: 195 },
-            { x: 30, y: 210 }, { x: 65, y: 200 },
-            // Layer 4
-            { x: -110, y: 250 }, { x: -75, y: 240 }, { x: -40, y: 255 },
-            { x: 0, y: 245 }, { x: 40, y: 255 }, { x: 75, y: 240 }, { x: 110, y: 250 },
-            { x: -95, y: 280 }, { x: -55, y: 290 }, { x: -20, y: 275 },
-            { x: 20, y: 275 }, { x: 55, y: 290 }, { x: 95, y: 280 },
-            { x: -130, y: 320 }, { x: -85, y: 330 }, { x: -45, y: 315 },
-            { x: 0, y: 335 }, { x: 45, y: 315 }, { x: 85, y: 330 }, { x: 130, y: 320 },
-            { x: -115, y: 355 }, { x: -70, y: 365 }, { x: -25, y: 350 },
-            { x: 25, y: 350 }, { x: 70, y: 365 }, { x: 115, y: 355 },
-        ];
+        // Tọa độ để tạo hình cây thông (chỉ gồm các điểm sáng)
+        function generateTreeLights() {
+            const lights = [];
+            const centerX = 200;
+            const startY = 40;
 
-        // Vị trí quả cầu
-        const ornamentPositions = [
-            { x: -25, y: 75, color: '#ff0040', size: 24 },
-            { x: 40, y: 125, color: '#ffd700', size: 28 },
-            { x: -60, y: 185, color: '#00bfff', size: 26 },
-            { x: 25, y: 220, color: '#ff69b4', size: 30 },
-            { x: -100, y: 280, color: '#00ff7f', size: 28 },
-            { x: 80, y: 310, color: '#ff4500', size: 26 },
-            { x: -45, y: 345, color: '#ba55d3', size: 32 },
-            { x: 120, y: 360, color: '#00ced1', size: 28 },
-            { x: 0, y: 300, color: '#ffd700', size: 30 },
-            { x: -130, y: 355, color: '#ff1493', size: 26 },
-        ];
+            // Tạo nhiều lớp với số lượng đèn tăng dần
+            const layers = [
+                { y: 40, width: 20, count: 3 },
+                { y: 70, width: 50, count: 5 },
+                { y: 100, width: 80, count: 7 },
+                { y: 130, width: 110, count: 9 },
+                { y: 160, width: 140, count: 11 },
+                { y: 190, width: 170, count: 13 },
+                { y: 220, width: 200, count: 15 },
+                { y: 250, width: 230, count: 17 },
+                { y: 280, width: 260, count: 19 },
+                { y: 310, width: 290, count: 21 },
+                { y: 340, width: 320, count: 23 },
+                { y: 370, width: 350, count: 25 },
+                { y: 400, width: 380, count: 27 },
+            ];
 
-        const decorationsContainer = document.getElementById('decorations');
+            layers.forEach(layer => {
+                for (let i = 0; i < layer.count; i++) {
+                    const x = centerX - layer.width / 2 + (layer.width / (layer.count - 1 || 1)) * i;
+                    const yOffset = (Math.random() - 0.5) * 15;
+                    const xOffset = (Math.random() - 0.5) * 10;
+                    lights.push({
+                        x: x + xOffset,
+                        y: layer.y + yOffset,
+                        size: 6 + Math.random() * 8
+                    });
+                }
+            });
 
-        // Tạo đèn LED
-        lightPositions.forEach((pos, i) => {
-            const light = document.createElement('div');
-            light.className = 'light';
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            light.style.cssText = `
-                left: calc(50% + ${pos.x}px);
-                top: ${pos.y}px;
-                background: radial-gradient(circle at 30% 30%, white, ${color});
-                --color: ${color};
+            // Thêm các đèn ngẫu nhiên bên trong
+            for (let y = 50; y < 400; y += 20) {
+                const maxWidth = (y / 400) * 380;
+                const count = Math.floor(maxWidth / 30);
+                for (let i = 0; i < count; i++) {
+                    lights.push({
+                        x: centerX + (Math.random() - 0.5) * maxWidth,
+                        y: y + Math.random() * 15,
+                        size: 4 + Math.random() * 6
+                    });
+                }
+            }
+
+            return lights;
+        }
+
+        const treeLights = generateTreeLights();
+
+        treeLights.forEach((light, i) => {
+            const particle = document.createElement('div');
+            particle.className = 'light-particle';
+            const colorObj = colors[Math.floor(Math.random() * colors.length)];
+
+            particle.style.cssText = `
+                left: ${light.x}px;
+                top: ${light.y}px;
+                width: ${light.size}px;
+                height: ${light.size}px;
+                background: radial-gradient(circle at 30% 30%, white, ${colorObj.color});
+                --color: ${colorObj.color};
+                --glow: ${colorObj.glow};
+                --duration: ${0.5 + Math.random() * 1.5}s;
                 --delay: ${Math.random() * 2}s;
-                --duration: ${0.3 + Math.random() * 0.7}s;
             `;
-            decorationsContainer.appendChild(light);
+            treeContainer.appendChild(particle);
         });
 
-        // Tạo quả cầu
-        ornamentPositions.forEach((pos, i) => {
-            const ornament = document.createElement('div');
-            ornament.className = 'ornament';
-            ornament.style.cssText = `
-                left: calc(50% + ${pos.x}px);
-                top: ${pos.y}px;
-                width: ${pos.size}px;
-                height: ${pos.size}px;
-                background: radial-gradient(circle at 30% 30%, white, ${pos.color} 50%, ${darkenColor(pos.color, 40)} 100%);
-                animation-delay: ${i * 0.3}s;
-                box-shadow: 
-                    0 5px 15px rgba(0,0,0,0.3),
-                    inset 0 -5px 15px rgba(0,0,0,0.2),
-                    inset 0 5px 15px rgba(255,255,255,0.3);
-            `;
-            decorationsContainer.appendChild(ornament);
-        });
-
-        // Tạo garlands (dây kim tuyến)
-        const garlandContainer = document.getElementById('garland');
-        const garlandPositions = [
-            { top: 90, left: 20, width: 60, angle: 15 },
-            { top: 160, left: 10, width: 80, angle: -10 },
-            { top: 240, left: 5, width: 90, angle: 12 },
-            { top: 330, left: 0, width: 100, angle: -8 },
-        ];
-
-        garlandPositions.forEach(pos => {
-            const strand = document.createElement('div');
-            strand.className = 'garland-strand';
-            strand.style.cssText = `
-                top: ${pos.top}px;
-                left: ${pos.left}%;
-                width: ${pos.width}%;
-                transform: rotate(${pos.angle}deg);
-            `;
-            garlandContainer.appendChild(strand);
-        });
-
-        // Tạo sparkles
-        function createSparkles() {
-            for (let i = 0; i < 30; i++) {
+        // Thêm sparkles vào gift boxes
+        document.querySelectorAll('.gift-box').forEach(gift => {
+            const sparkleContainer = document.createElement('div');
+            sparkleContainer.className = 'sparkle-effect';
+            for (let i = 0; i < 5; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.className = 'sparkle';
                 sparkle.style.cssText = `
-                    left: calc(50% + ${(Math.random() - 0.5) * 300}px);
-                    top: ${50 + Math.random() * 350}px;
-                    animation-delay: ${Math.random() * 3}s;
-                    background: ${colors[Math.floor(Math.random() * colors.length)]};
-                    box-shadow: 0 0 10px currentColor;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation-delay: ${Math.random() * 2}s;
                 `;
-                decorationsContainer.appendChild(sparkle);
+                sparkleContainer.appendChild(sparkle);
             }
-        }
-        createSparkles();
-
-        // Tạo tuyết rơi siêu đẹp
-        const snowflakesContainer = document.getElementById('snowflakes');
-        const snowflakeChars = ['❄', '❅', '❆', '✧', '✦', '✵', '❋', '✺'];
-
-        function createSnowflake() {
-            const snowflake = document.createElement('div');
-            snowflake.className = 'snowflake';
-            snowflake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
-            const size = Math.random() * 1.5 + 0.5;
-            snowflake.style.cssText = `
-                left: ${Math.random() * 100}vw;
-                font-size: ${size}rem;
-                animation-duration: ${Math.random() * 8 + 6}s;
-                animation-delay: ${Math.random() * 2}s;
-                opacity: ${0.5 + Math.random() * 0.5};
-            `;
-            snowflakesContainer.appendChild(snowflake);
-
-            setTimeout(() => snowflake.remove(), 16000);
-        }
-
-        // Tạo tuyết ban đầu
-        for (let i = 0; i < 80; i++) {
-            setTimeout(createSnowflake, i * 50);
-        }
-        setInterval(createSnowflake, 150);
-
-        // Fireworks
-        function createFirework(x, y) {
-            const firework = document.createElement('div');
-            firework.className = 'firework';
-            firework.style.left = x + 'px';
-            firework.style.top = y + 'px';
-            document.body.appendChild(firework);
-
-            const particleCount = 30;
-            const color = colors[Math.floor(Math.random() * colors.length)];
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'firework-particle';
-                const angle = (i / particleCount) * 360;
-                const distance = 50 + Math.random() * 100;
-                const tx = Math.cos(angle * Math.PI / 180) * distance;
-                const ty = Math.sin(angle * Math.PI / 180) * distance;
-
-                particle.style.cssText = `
-                    background: ${color};
-                    --tx: ${tx}px;
-                    --ty: ${ty}px;
-                    box-shadow: 0 0 10px ${color}, 0 0 20px ${color};
-                `;
-                firework.appendChild(particle);
-            }
-
-            setTimeout(() => firework.remove(), 1500);
-        }
-
-        // Auto fireworks
-        setInterval(() => {
-            const x = Math.random() * window.innerWidth;
-            const y = Math.random() * window.innerHeight * 0.5;
-            createFirework(x, y);
-        }, 2000);
-
-        // Click để tạo firework
-        document.addEventListener('click', (e) => {
-            createFirework(e.clientX, e.clientY);
+            gift.appendChild(sparkleContainer);
         });
 
-        // Magic particles khi hover cây
-        const treeContainer = document.getElementById('treeContainer');
-        treeContainer.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.7) {
-                const particle = document.createElement('div');
-                particle.className = 'magic-particle';
-                const mx = (Math.random() - 0.5) * 100;
-                const my = -50 - Math.random() * 50;
-                particle.style.cssText = `
-                    left: ${e.offsetX}px;
-                    top: ${e.offsetY}px;
-                    --mx: ${mx}px;
-                    --my: ${my}px;
-                    background: radial-gradient(circle, ${colors[Math.floor(Math.random() * colors.length)]}, transparent);
-                `;
-                treeContainer.appendChild(particle);
-                setTimeout(() => particle.remove(), 2000);
+        // Show Santa Modal
+        function showSanta() {
+            const modal = document.getElementById('santaModal');
+            modal.classList.add('show');
+
+            // Tạo confetti effect
+            createConfetti();
+        }
+
+        function closeSanta() {
+            const modal = document.getElementById('santaModal');
+            modal.classList.remove('show');
+        }
+
+        // Click outside to close
+        document.getElementById('santaModal').addEventListener('click', (e) => {
+            if (e.target.id === 'santaModal') {
+                closeSanta();
             }
         });
 
-        // Countdown đến Giáng Sinh
-        function updateCountdown() {
-            const now = new Date();
-            const christmas = new Date(now.getFullYear(), 11, 25);
-            if (now > christmas) christmas.setFullYear(christmas.getFullYear() + 1);
+        // Confetti effect
+        function createConfetti() {
+            const confettiColors = ['#ff0066', '#00ffcc', '#ffff00', '#ff00ff', '#00ccff', '#ff6600'];
 
-            const diff = christmas - now;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.cssText = `
+                    position: fixed;
+                    left: ${Math.random() * 100}%;
+                    top: -20px;
+                    width: ${5 + Math.random() * 10}px;
+                    height: ${5 + Math.random() * 10}px;
+                    background: ${confettiColors[Math.floor(Math.random() * confettiColors.length)]};
+                    border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+                    animation: confettiFall ${2 + Math.random() * 3}s linear forwards;
+                    z-index: 1001;
+                    pointer-events: none;
+                `;
+                document.body.appendChild(confetti);
 
-            document.getElementById('countdown').innerHTML = days === 0 && hours === 0 && minutes === 0 ?
-                `<span style="font-size: 1.5rem; color: #ffd700;">🎉 MERRY CHRISTMAS! 🎉</span>` :
-                `<span>🎄 ${days} ngày</span><span>⏰ ${hours} giờ</span><span>⏱ ${minutes} phút</span><span>⌛ ${seconds} giây</span>`;
-        }
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-
-        // Music toggle
-        const musicToggle = document.getElementById('musicToggle');
-        const bgMusic = document.getElementById('bgMusic');
-        let isPlaying = false;
-
-        musicToggle.addEventListener('click', () => {
-            if (isPlaying) {
-                bgMusic.pause();
-                musicToggle.textContent = '🔇';
-            } else {
-                bgMusic.play().catch(e => console.log('Audio play failed'));
-                musicToggle.textContent = '🔊';
+                setTimeout(() => confetti.remove(), 5000);
             }
-            isPlaying = !isPlaying;
-        });
-
-        // Helper function
-        function darkenColor(color, amount) {
-            const hex = color.replace('#', '');
-            const r = Math.max(0, parseInt(hex.substr(0, 2), 16) - amount);
-            const g = Math.max(0, parseInt(hex.substr(2, 2), 16) - amount);
-            const b = Math.max(0, parseInt(hex.substr(4, 2), 16) - amount);
-            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
         }
 
-        // Gift click effect
-        document.querySelectorAll('.gift').forEach(gift => {
-            gift.addEventListener('click', function () {
-                const rect = this.getBoundingClientRect();
-                createFirework(rect.left + rect.width / 2, rect.top);
-            });
+        // Add confetti animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confettiFall {
+                0% { 
+                    transform: translateY(0) rotate(0deg); 
+                    opacity: 1;
+                }
+                100% { 
+                    transform: translateY(100vh) rotate(720deg); 
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Keyboard escape to close modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSanta();
         });
     </script>
 </body>
