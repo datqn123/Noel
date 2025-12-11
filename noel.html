@@ -60,18 +60,21 @@
             gap: 30px;
             z-index: 100;
             pointer-events: auto;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .gifts-container.visible {
+            opacity: 1;
         }
 
         .gift-box {
             width: 60px;
             height: 50px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: default;
+            transition: transform 0.15s ease-out;
             position: relative;
-        }
-
-        .gift-box:hover {
-            transform: scale(1.2) translateY(-10px);
+            pointer-events: auto;
         }
 
         .gift-body {
@@ -252,22 +255,22 @@
         <h1 class="title">Merry Christmas</h1>
     </div>
 
-    <div class="gifts-container">
-        <div class="gift-box gift1" onclick="showSanta()">
+    <div class="gifts-container" id="giftsContainer">
+        <div class="gift-box gift1">
             <div class="gift-ribbon"></div>
             <div class="gift-body"></div>
         </div>
-        <div class="gift-box gift2" onclick="showSanta()">
+        <div class="gift-box gift2">
             <div class="gift-ribbon"></div>
             <div class="gift-body"></div>
         </div>
-        <div class="gift-box gift3" onclick="showSanta()">
+        <div class="gift-box gift3">
             <div class="gift-ribbon"></div>
             <div class="gift-body"></div>
         </div>
     </div>
 
-    <p class="click-hint">Click a gift to unwrap</p>
+    <p class="click-hint" id="giftHint" style="opacity: 0; transition: opacity 1s;">Try to catch the gifts!</p>
 
     <div class="santa-modal" id="santaModal">
         <button class="close-btn" onclick="closeSanta()">✕</button>
@@ -294,6 +297,8 @@
             centerY = height / 2;
             initStars();
             initTree();
+            initSnowflakes();
+            initReindeers();
         }
 
         // Stars background
@@ -488,191 +493,327 @@
             requestAnimationFrame(animate);
         }
 
-        // Snowflakes - MORE and BIGGER
+        // Snowflakes - SMALL and FAST ❄️
         let snowflakes = [];
 
         function initSnowflakes() {
             snowflakes = [];
-            for (let i = 0; i < 300; i++) {
+            for (let i = 0; i < 120; i++) {
                 snowflakes.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    size: 2 + Math.random() * 4,
-                    speed: 1 + Math.random() * 3,
-                    wind: (Math.random() - 0.5) * 1,
-                    opacity: 0.5 + Math.random() * 0.5
+                    size: 3 + Math.random() * 4,
+                    speed: 2 + Math.random() * 3,
+                    rotation: Math.random() * Math.PI * 2,
+                    rotationSpeed: (Math.random() - 0.5) * 0.04,
+                    wind: (Math.random() - 0.5) * 0.5,
+                    opacity: 0.25 + Math.random() * 0.35
                 });
             }
         }
         initSnowflakes();
 
+        function drawSnowflake(x, y, size, rotation, opacity) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(rotation);
+            ctx.strokeStyle = `rgba(200, 220, 255, ${opacity})`;
+            ctx.lineWidth = 1.5;
+            ctx.lineCap = 'round';
+
+            // Draw 6 branches
+            for (let i = 0; i < 6; i++) {
+                ctx.save();
+                ctx.rotate(i * Math.PI / 3);
+
+                // Main branch
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(0, -size);
+                ctx.stroke();
+
+                // Small branches
+                const branchLen = size * 0.35;
+                ctx.beginPath();
+                ctx.moveTo(0, -size * 0.4);
+                ctx.lineTo(-branchLen * 0.6, -size * 0.6);
+                ctx.moveTo(0, -size * 0.4);
+                ctx.lineTo(branchLen * 0.6, -size * 0.6);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(0, -size * 0.7);
+                ctx.lineTo(-branchLen * 0.4, -size * 0.85);
+                ctx.moveTo(0, -size * 0.7);
+                ctx.lineTo(branchLen * 0.4, -size * 0.85);
+                ctx.stroke();
+
+                ctx.restore();
+            }
+
+            // Center dot
+            ctx.beginPath();
+            ctx.arc(0, 0, 2, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+            ctx.fill();
+
+            ctx.restore();
+        }
+
         function drawSnowflakes() {
             snowflakes.forEach(flake => {
                 flake.y += flake.speed;
-                flake.x += flake.wind + Math.sin(flake.y * 0.01) * 0.5;
+                flake.x += flake.wind + Math.sin(flake.y * 0.005) * 0.3;
+                flake.rotation += flake.rotationSpeed;
 
-                if (flake.y > height) {
-                    flake.y = -10;
+                if (flake.y > height + 20) {
+                    flake.y = -20;
                     flake.x = Math.random() * width;
                 }
-                if (flake.x > width) flake.x = 0;
-                if (flake.x < 0) flake.x = width;
+                if (flake.x > width + 20) flake.x = -20;
+                if (flake.x < -20) flake.x = width + 20;
 
-                ctx.beginPath();
-                ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${flake.opacity})`;
-                ctx.fill();
+                drawSnowflake(flake.x, flake.y, flake.size, flake.rotation, flake.opacity);
             });
         }
 
-        // Multiple Reindeers with sleighs
-        let reindeers = [
-            { x: 0, y: 60, speed: 3.5 },
-            { x: -500, y: 120, speed: 2.5 },
-            { x: -1000, y: 180, speed: 4 }
-        ];
+        // Sleighs with Santa and Reindeer - from BOTH directions
+        let sleighs = [];
+
+        function initReindeers() {
+            sleighs = [
+                { x: 100, y: 60, speed: 2.8, direction: 1 },
+                { x: -300, y: 120, speed: 2.2, direction: 1 },
+                { x: width + 300, y: 80, speed: -2.5, direction: -1 },
+                { x: -500, y: 180, speed: 3, direction: 1 },
+                { x: width + 500, y: 140, speed: -2.8, direction: -1 },
+                { x: -700, y: 100, speed: 2.4, direction: 1 },
+            ];
+        }
 
         function drawReindeer(time) {
-            reindeers.forEach((reindeer, index) => {
+            sleighs.forEach((sleigh, index) => {
                 // Respawn when off screen
-                if (reindeer.x > width + 300) {
-                    reindeer.x = -400 - Math.random() * 300;
-                    reindeer.y = 40 + index * 60 + Math.random() * 30;
-                    reindeer.speed = 2 + Math.random() * 2.5;
+                if (sleigh.direction === 1 && sleigh.x > width + 400) {
+                    sleigh.x = -400 - Math.random() * 300;
+                    sleigh.y = 50 + Math.random() * (height * 0.2);
+                    sleigh.speed = 1.8 + Math.random() * 1.5;
+                } else if (sleigh.direction === -1 && sleigh.x < -400) {
+                    sleigh.x = width + 400 + Math.random() * 300;
+                    sleigh.y = 50 + Math.random() * (height * 0.2);
+                    sleigh.speed = -(1.8 + Math.random() * 1.5);
                 }
 
-                reindeer.x += reindeer.speed;
-                const bobY = Math.sin(time * 0.003 + index) * 8;
+                sleigh.x += sleigh.speed;
+                const bobY = Math.sin(time * 0.002 + index * 2) * 5;
 
-                // Draw sleigh trail (magic dust)
-                for (let i = 0; i < 6; i++) {
-                    const trailX = reindeer.x - 80 - i * 15;
-                    const trailY = reindeer.y + bobY + 30 + Math.random() * 8;
-                    const trailOpacity = (6 - i) / 6 * 0.4;
+                ctx.save();
+                ctx.translate(sleigh.x, sleigh.y + bobY);
+                ctx.scale(sleigh.direction, 1);
 
+                // Magic sparkle trail
+                for (let i = 0; i < 12; i++) {
+                    const trailX = -120 - i * 12 - Math.random() * 8;
+                    const trailY = 25 + Math.sin(i * 0.5 + time * 0.01) * 8;
+                    const trailSize = (12 - i) / 12 * 4;
+                    const trailOpacity = (12 - i) / 12 * 0.7;
+
+                    const gradient = ctx.createRadialGradient(trailX, trailY, 0, trailX, trailY, trailSize * 2);
+                    gradient.addColorStop(0, `rgba(255, 220, 100, ${trailOpacity})`);
+                    gradient.addColorStop(1, 'rgba(255, 180, 50, 0)');
+                    ctx.fillStyle = gradient;
                     ctx.beginPath();
-                    ctx.arc(trailX, trailY, 1.5 + Math.random() * 2, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255, 215, 0, ${trailOpacity})`;
+                    ctx.arc(trailX, trailY, trailSize * 2, 0, Math.PI * 2);
                     ctx.fill();
                 }
 
-                ctx.save();
-                ctx.translate(reindeer.x, reindeer.y + bobY);
+                // === REINDEER (Cream/Tan colored) ===
+                const legAnim = Math.sin(time * 0.012 + index) * 10;
 
-                // Draw reindeer silhouette
-                ctx.fillStyle = '#1a1a1a';
-                ctx.strokeStyle = 'rgba(255, 200, 100, 0.3)';
-                ctx.lineWidth = 1;
+                // Back legs
+                ctx.strokeStyle = '#c4a574';
+                ctx.lineWidth = 5;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(10, 25);
+                ctx.lineTo(5 + legAnim * 0.3, 50);
+                ctx.moveTo(20, 25);
+                ctx.lineTo(25 - legAnim * 0.3, 50);
+                ctx.stroke();
+
+                // Front legs
+                ctx.beginPath();
+                ctx.moveTo(50, 20);
+                ctx.lineTo(55 - legAnim * 0.4, 48);
+                ctx.moveTo(60, 18);
+                ctx.lineTo(65 + legAnim * 0.4, 46);
+                ctx.stroke();
 
                 // Body
+                ctx.fillStyle = '#d4b896';
                 ctx.beginPath();
-                ctx.ellipse(0, 25, 25, 15, 0, 0, Math.PI * 2);
+                ctx.ellipse(35, 15, 30, 18, 0, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.strokeStyle = '#a08060';
+                ctx.lineWidth = 1;
                 ctx.stroke();
+
+                // Neck
+                ctx.fillStyle = '#d4b896';
+                ctx.beginPath();
+                ctx.moveTo(55, 5);
+                ctx.quadraticCurveTo(70, -5, 75, -15);
+                ctx.quadraticCurveTo(80, -5, 65, 10);
+                ctx.closePath();
+                ctx.fill();
 
                 // Head
                 ctx.beginPath();
-                ctx.ellipse(30, 15, 12, 10, 0.3, 0, Math.PI * 2);
+                ctx.ellipse(80, -18, 12, 10, 0.4, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.stroke();
 
-                // Antlers
-                ctx.strokeStyle = 'rgba(255, 200, 100, 0.5)';
+                // Snout
+                ctx.fillStyle = '#c4a574';
+                ctx.beginPath();
+                ctx.ellipse(92, -14, 6, 5, 0.3, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Eye
+                ctx.fillStyle = '#222';
+                ctx.beginPath();
+                ctx.arc(82, -22, 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Antlers - large and majestic
+                ctx.strokeStyle = '#8b7355';
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                // Left antler
+                ctx.beginPath();
+                ctx.moveTo(75, -28);
+                ctx.lineTo(65, -50);
+                ctx.lineTo(55, -45);
+                ctx.moveTo(65, -50);
+                ctx.lineTo(60, -58);
+                ctx.moveTo(65, -42);
+                ctx.lineTo(55, -38);
+                ctx.stroke();
+                // Right antler
+                ctx.beginPath();
+                ctx.moveTo(80, -28);
+                ctx.lineTo(90, -48);
+                ctx.lineTo(100, -42);
+                ctx.moveTo(90, -48);
+                ctx.lineTo(95, -55);
+                ctx.moveTo(88, -40);
+                ctx.lineTo(98, -35);
+                ctx.stroke();
+
+                // Harness
+                ctx.strokeStyle = '#5a4020';
                 ctx.lineWidth = 2;
                 ctx.beginPath();
-                ctx.moveTo(35, 5);
-                ctx.lineTo(45, -10);
-                ctx.lineTo(50, -5);
-                ctx.moveTo(45, -10);
-                ctx.lineTo(55, -15);
+                ctx.moveTo(25, 10);
+                ctx.lineTo(-30, 20);
                 ctx.stroke();
 
+                // === SLEIGH ===
+                // Sleigh body - dark red/brown with gold trim
+                ctx.fillStyle = '#6b2020';
                 ctx.beginPath();
-                ctx.moveTo(30, 5);
-                ctx.lineTo(35, -12);
-                ctx.lineTo(42, -8);
-                ctx.moveTo(35, -12);
-                ctx.lineTo(40, -18);
-                ctx.stroke();
-
-                // Red nose glow
-                const noseGlow = ctx.createRadialGradient(42, 15, 0, 42, 15, 15);
-                noseGlow.addColorStop(0, 'rgba(255, 50, 50, 0.8)');
-                noseGlow.addColorStop(0.5, 'rgba(255, 0, 0, 0.3)');
-                noseGlow.addColorStop(1, 'rgba(255, 0, 0, 0)');
-                ctx.fillStyle = noseGlow;
-                ctx.beginPath();
-                ctx.arc(42, 15, 15, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Red nose
-                ctx.fillStyle = '#ff3333';
-                ctx.beginPath();
-                ctx.arc(42, 15, 4, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Legs
-                ctx.strokeStyle = '#1a1a1a';
-                ctx.lineWidth = 4;
-                const legOffset = Math.sin(time * 0.01 + index) * 5;
-                ctx.beginPath();
-                ctx.moveTo(-10, 35);
-                ctx.lineTo(-15, 50 + legOffset);
-                ctx.moveTo(5, 35);
-                ctx.lineTo(0, 50 - legOffset);
-                ctx.moveTo(-5, 35);
-                ctx.lineTo(-8, 50 - legOffset);
-                ctx.moveTo(10, 35);
-                ctx.lineTo(12, 50 + legOffset);
-                ctx.stroke();
-
-                // Sleigh
-                ctx.fillStyle = '#8b0000';
-                ctx.beginPath();
-                ctx.moveTo(-70, 30);
-                ctx.quadraticCurveTo(-90, 30, -95, 45);
-                ctx.lineTo(-30, 45);
-                ctx.lineTo(-25, 30);
+                ctx.moveTo(-30, 10);
+                ctx.quadraticCurveTo(-50, 5, -70, 10);
+                ctx.lineTo(-100, 10);
+                ctx.quadraticCurveTo(-115, 15, -110, 35);
+                ctx.lineTo(-25, 35);
+                ctx.quadraticCurveTo(-20, 20, -30, 10);
                 ctx.closePath();
                 ctx.fill();
-                ctx.strokeStyle = 'rgba(255, 215, 0, 0.5)';
-                ctx.lineWidth = 1;
+
+                // Gold trim on sleigh
+                ctx.strokeStyle = '#d4a050';
+                ctx.lineWidth = 2;
                 ctx.stroke();
 
-                // Santa in sleigh
+                // Sleigh runner
+                ctx.strokeStyle = '#d4a050';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(-25, 38);
+                ctx.quadraticCurveTo(-60, 42, -115, 38);
+                ctx.lineTo(-125, 30);
+                ctx.stroke();
+
+                // Decorative swirl on sleigh
+                ctx.strokeStyle = '#d4a050';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(-40, 20);
+                ctx.quadraticCurveTo(-55, 15, -60, 25);
+                ctx.quadraticCurveTo(-65, 15, -80, 20);
+                ctx.stroke();
+
+                // === SANTA ===
+                // Body (red coat)
                 ctx.fillStyle = '#cc0000';
                 ctx.beginPath();
-                ctx.ellipse(-60, 25, 12, 15, 0, 0, Math.PI * 2);
+                ctx.ellipse(-70, 5, 18, 22, 0, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Santa head
-                ctx.fillStyle = '#ffdbac';
+                // White fur trim
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(-88, 20, 36, 6);
+
+                // Head
+                ctx.fillStyle = '#ffd4b8';
                 ctx.beginPath();
-                ctx.arc(-60, 10, 8, 0, Math.PI * 2);
+                ctx.arc(-70, -20, 12, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Santa hat
+                // Beard
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.moveTo(-80, -15);
+                ctx.quadraticCurveTo(-85, 0, -75, 8);
+                ctx.lineTo(-65, 8);
+                ctx.quadraticCurveTo(-55, 0, -60, -15);
+                ctx.closePath();
+                ctx.fill();
+
+                // Hat
                 ctx.fillStyle = '#cc0000';
                 ctx.beginPath();
-                ctx.moveTo(-68, 8);
-                ctx.lineTo(-60, -8);
+                ctx.moveTo(-82, -22);
+                ctx.lineTo(-70, -45);
+                ctx.lineTo(-58, -22);
+                ctx.closePath();
+                ctx.fill();
+
+                // Hat trim
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(-84, -25, 28, 6);
+
+                // Hat pom
+                ctx.beginPath();
+                ctx.arc(-70, -45, 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Santa's arm waving
+                ctx.fillStyle = '#cc0000';
+                ctx.beginPath();
+                ctx.moveTo(-55, 0);
+                ctx.lineTo(-40, -15 + Math.sin(time * 0.005) * 5);
+                ctx.lineTo(-35, -10 + Math.sin(time * 0.005) * 5);
                 ctx.lineTo(-52, 8);
                 ctx.closePath();
                 ctx.fill();
 
-                // Hat pom
+                // Glove
                 ctx.fillStyle = '#fff';
                 ctx.beginPath();
-                ctx.arc(-60, -8, 4, 0, Math.PI * 2);
+                ctx.arc(-37, -12 + Math.sin(time * 0.005) * 5, 5, 0, Math.PI * 2);
                 ctx.fill();
-
-                // Reins
-                ctx.strokeStyle = 'rgba(139, 69, 19, 0.6)';
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(-30, 30);
-                ctx.quadraticCurveTo(0, 35, 20, 20);
-                ctx.stroke();
 
                 ctx.restore();
             });
@@ -738,6 +879,31 @@
         window.addEventListener('resize', resize);
         resize();
         animate(0);
+
+        // Auto-show Santa and gifts after 5 seconds
+        setTimeout(() => {
+            showSanta();
+            document.getElementById('giftsContainer').classList.add('visible');
+            document.getElementById('giftHint').style.opacity = '1';
+        }, 5000);
+
+        // Gift boxes evade mouse on hover!
+        const giftBoxes = document.querySelectorAll('.gift-box');
+        giftBoxes.forEach(gift => {
+            gift.addEventListener('mouseenter', () => {
+                // Random direction to escape
+                const escapeX = (Math.random() - 0.5) * 150;
+                const escapeY = (Math.random() - 0.5) * 80 - 30;
+                gift.style.transform = `translate(${escapeX}px, ${escapeY}px)`;
+            });
+
+            gift.addEventListener('mouseleave', () => {
+                // Return after a delay
+                setTimeout(() => {
+                    gift.style.transform = 'translate(0, 0)';
+                }, 500);
+            });
+        });
     </script>
 </body>
 
