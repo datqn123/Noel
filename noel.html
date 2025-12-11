@@ -249,6 +249,77 @@
             text-transform: uppercase;
             z-index: 100;
         }
+
+        /* Name Input Modal */
+        .name-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .name-modal.hidden {
+            display: none;
+        }
+
+        .name-content {
+            text-align: center;
+            animation: santaIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .name-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 200, 100, 0.5);
+        }
+
+        .name-input {
+            width: 280px;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            font-family: 'Mountains of Christmas', cursive;
+            border: 2px solid rgba(255, 200, 100, 0.5);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-align: center;
+            outline: none;
+            margin-bottom: 20px;
+        }
+
+        .name-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .name-input:focus {
+            border-color: rgba(255, 200, 100, 0.8);
+            box-shadow: 0 0 20px rgba(255, 200, 100, 0.3);
+        }
+
+        .name-submit {
+            padding: 12px 40px;
+            font-size: 1.2rem;
+            font-family: 'Mountains of Christmas', cursive;
+            background: linear-gradient(135deg, #cc0000, #8b0000);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .name-submit:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 100, 100, 0.5);
+        }
     </style>
 </head>
 
@@ -274,14 +345,25 @@
         </div>
     </div>
 
-    <p class="click-hint" id="giftHint" style="opacity: 0; transition: opacity 1s;">Try to catch the gifts!</p>
+    <p class="click-hint" id="giftHint" style="opacity: 0; transition: opacity 1s;">Hãy bắt lấy quà!</p>
 
+    <!-- Name Input Modal -->
+    <div class="name-modal" id="nameModal">
+        <div class="name-content">
+            <div class="santa-emoji">🎄</div>
+            <p class="name-title">Chào mừng đến với Giáng Sinh!</p>
+            <input type="text" id="nameInput" placeholder="Nhập tên của bạn..." class="name-input">
+            <button onclick="submitName()" class="name-submit">Bắt đầu 🎅</button>
+        </div>
+    </div>
+
+    <!-- Santa Modal -->
     <div class="santa-modal" id="santaModal">
         <button class="close-btn" onclick="closeSanta()">✕</button>
         <div class="santa-content">
             <div class="santa-emoji">🎅</div>
-            <p class="santa-message">Merry Christmas</p>
-            <p class="santa-sub">Choose a gift</p>
+            <p class="santa-message" id="santaMessage">Merry Christmas</p>
+            <p class="santa-sub" id="santaSub">Chọn quà nào!</p>
         </div>
     </div>
 
@@ -868,24 +950,49 @@
         resize();
         animate(0);
 
-        // Auto-show Santa and gifts after 5 seconds
-        setTimeout(() => {
-            showSanta();
-            document.getElementById('giftsContainer').classList.add('visible');
-            document.getElementById('giftHint').style.opacity = '1';
-            startGiftAnimation();
-        }, 5000);
+        // User name storage
+        let userName = '';
+
+        // Submit name and start the experience
+        function submitName() {
+            const nameInput = document.getElementById('nameInput');
+            userName = nameInput.value.trim() || 'Bạn';
+
+            // Hide name modal
+            document.getElementById('nameModal').classList.add('hidden');
+
+            // Update Santa message with user name
+            document.getElementById('santaMessage').textContent = `Xin chào ${userName}!`;
+            document.getElementById('santaSub').textContent = 'Mời bạn chọn quà nào! 🎁';
+
+            // Show Santa after a short delay
+            setTimeout(() => {
+                showSanta();
+                document.getElementById('giftsContainer').classList.add('visible');
+                document.getElementById('giftHint').style.opacity = '1';
+                startGiftAnimation();
+            }, 500);
+        }
+
+        // Allow Enter key to submit name
+        document.getElementById('nameInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') submitName();
+        });
 
         // Gift boxes escape when mouse hovers!
         function startGiftAnimation() {
             const giftBoxes = document.querySelectorAll('.gift-box');
 
             giftBoxes.forEach((gift, index) => {
-                // Set initial position at bottom center
+                // Move gift out of container and set position
+                document.body.appendChild(gift);
                 gift.style.position = 'fixed';
+                gift.style.zIndex = '999';
                 gift.style.left = (window.innerWidth / 2 - 100 + index * 90) + 'px';
                 gift.style.top = (window.innerHeight - 120) + 'px';
                 gift.style.transition = 'left 0.3s ease-out, top 0.3s ease-out';
+                gift.style.opacity = '1';
+                gift.style.pointerEvents = 'auto';
 
                 gift.addEventListener('mouseenter', () => {
                     // Teleport to random position on screen
